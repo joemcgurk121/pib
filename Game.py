@@ -28,6 +28,7 @@ SETUP_STATE = 'setup'
 ONLINE_SETUP_STATE = 'online_setup'
 GAME_STATE = 'game'
 GAME_OVER_STATE = 'game_over'
+CLOCK_STATE = 'clock_state'
 
 button1 = Button(BUTTON1_GPIO)
 button2 = Button(BUTTON2_GPIO)
@@ -40,7 +41,7 @@ button3.hold_time = BUTTON_HOLD_TIME
 scoreboard = Scoreboard('yellow', 'blue')
 time_of_last_interaction = time.time()
 game_id = None
-state = SLEEP_STATE
+state = CLOCK_STATE
 play_to_score = 25
 scores = [0, 0]
 
@@ -111,6 +112,26 @@ def sleep():
     button2.when_held = setup_online
     scoreboard.sleep()
 
+def clock():
+    global state
+
+    print("DISPLAYING CLOCK")
+    reset_buttons()
+    reset()
+    state = CLOCK_STATE
+    button2.when_held = sleep
+    button1.when_held = setup_online_if_all_pressed
+    hour = time.strftime("%I")
+    minute = time.strftime("%M")
+    while true:
+        current_hour = time.strftime("%I")
+        current_minute = time.strftime("%M")
+        if((current_hour != hour) or (current_minute != minute)):
+            hour = current_hour
+            minute = current_minute
+            scoreboard.show_score(current_hour, current_minute)
+        time.sleep(1)
+
 #Button Functions
 def increase_score(player_index):
     global time_of_last_interaction
@@ -156,6 +177,10 @@ def play_game_if_both_pressed():
     if(button1.is_pressed() and button3.is_pressed()):
         print("QUICK START")
         play_game()
+
+def setup_online_if_all_pressed():
+    if(button1.is_pressed() and button2.is_pressed() and button2.is_pressed()):
+        setup_online()
 
 def reset_buttons():
     print("RESETTING BUTTONS")
@@ -211,9 +236,9 @@ atexit.register(shutdown)
 
 #Main
 if __name__ == '__main__':
-    sleep()
+    clock()
     while True:
-        if(state != SLEEP_STATE):
+        if((state != SLEEP_STATE) or (state != CLOCK_STATE)):
             if(has_reached_timeout()):
                 sleep()
             elif(state == GAME_STATE):
