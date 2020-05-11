@@ -1,4 +1,4 @@
-from Helpers import number_to_segment
+from Helpers import char_to_segment
 from Segment import Segment
 
 class Digit:
@@ -22,7 +22,7 @@ class Digit:
         return leds
 
     def leds_for_display_number(self, display_number):
-        segments_for_display_number = number_to_segment[str(display_number)]
+        segments_for_display_number = char_to_segment[str(display_number)]
 
         leds = []
         for segment_index in segments_for_display_number:
