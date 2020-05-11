@@ -122,8 +122,8 @@ def clock():
     state = CLOCK_STATE
     button2.when_held = sleep
     button1.when_held = setup_online_if_all_pressed
-    hour = time.strftime("%I")
-    minute = time.strftime("%M")
+    hour = ''
+    minute = ''
     while (state == CLOCK_STATE):
         current_hour = time.strftime("%I")
         current_minute = time.strftime("%M")
