@@ -110,7 +110,8 @@ def sleep():
     state = SLEEP_STATE
     button1.when_held = play_game_if_both_pressed
     button2.when_held = setup_online
-    scoreboard.sleep()
+    #scoreboard.sleep()
+    scoreboard.show_chars(['t', 'u', 'r', 'd'])
 
 def clock():
     global state
