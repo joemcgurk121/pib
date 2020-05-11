@@ -11,6 +11,8 @@ class Scoreboard:
         self.hyphen_color_value = color_name_to_rgb_tuple['purple']
         self.home_color_value = color_name_to_rgb_tuple[home_color]
         self.away_color_value = color_name_to_rgb_tuple[away_color]
+        self.hour_color_value = color_name_to_rgb_tuple['purple']
+        self.minute_color_value = color_name_to_rgb_tuple['purple']
         self.digits = []
         self.reset_led_values()
         for i in range(4):
@@ -41,6 +43,22 @@ class Scoreboard:
                 self.led_values[led] = self.home_color_value
             else:
                 self.led_values[led] = self.away_color_value
+        self.led_strip.value = self.led_values
+
+    def show_time(self, hour, minute):
+        self.reset_led_values()
+        numbers_to_display = self.score_to_digits(hour)
+        numbers_to_display += self.score_to_digits(minute)
+
+        leds_to_display = []
+        for i in range(len(numbers_to_display)):
+            leds_to_display += self.digits[i].leds_for_display_number(numbers_to_display[i])
+
+        for led in leds_to_display:
+            if(led <= 27):
+                self.led_values[led] = self.hour_color_value
+            else:
+                self.led_values[led] = self.minute_color_value
         self.led_strip.value = self.led_values
 
     def show_token(self, token):
