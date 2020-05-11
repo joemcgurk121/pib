@@ -129,7 +129,7 @@ def clock():
         if((current_hour != hour) or (current_minute != minute)):
             hour = current_hour
             minute = current_minute
-            scoreboard.show_score(current_hour, current_minute)
+            scoreboard.show_score(int(hour), int(minute))
         time.sleep(1)
 
 #Button Functions
