@@ -124,7 +124,7 @@ def clock():
     button1.when_held = setup_online_if_all_pressed
     hour = time.strftime("%I")
     minute = time.strftime("%M")
-    while True:
+    while (state == CLOCK_STATE):
         current_hour = time.strftime("%I")
         current_minute = time.strftime("%M")
         if((current_hour != hour) or (current_minute != minute)):
