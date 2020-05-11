@@ -228,6 +228,10 @@ def write_token_to_aws(token):
     print("GAME_ID = %s" % (game_id))
     return game_id
 
+def setup_time():
+    os.environ['TZ'] = 'US/Eastern'
+    time.tzset()
+
 def shutdown():
     reset()
     scoreboard.sleep()
@@ -236,6 +240,7 @@ atexit.register(shutdown)
 
 #Main
 if __name__ == '__main__':
+    setup_time()
     clock()
     while True:
         if((state != SLEEP_STATE) or (state != CLOCK_STATE)):
